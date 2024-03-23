@@ -4,8 +4,9 @@ import {EventModal} from './EventModal';
 
 export function EventTaskCreator() {
   const halfHours = new Array(48).fill(null);
-  const now = DateTime.now().setLocale('es').setZone('America/Costa_Rica');
-  const timestamp = now.toLocaleString(DateTime.DATE_FULL);
+  const dt = DateTime.now();
+  const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
+  const timestamp = currentDateTime.toLocaleString(DateTime.DATE_FULL);
   const halfHoursTemplate = halfHours.reduce(
     (acc: {current: DateTime; acc: string[]}) => {
       return {
@@ -14,15 +15,16 @@ export function EventTaskCreator() {
       };
     },
     {
-      current: now.startOf('day'),
+      current: currentDateTime.startOf('day'),
       acc: [],
     }
   );
 
+  const [date, setDate] = useState<DateTime>(currentDateTime);
   const [openModal, setOpenModal] = useState(false);
 
   function handleOnClickOpenModal() {
-    setOpenModal(!openModal);
+    setDate(date);
   }
 
   return (
@@ -50,9 +52,29 @@ export function EventTaskCreator() {
             })}
           </li>
         </ul>
-        {openModal && <EventModal />}
+        {date && <EventModal />}
         {/* </div> */}
       </div>
     </div>
   );
 }
+
+function getDate(date: string): DateTime {
+  // 2024-04-01 10:30 => DateTime
+  return DateTime.fromFormat(date, 'yyyy-MM-dd HH:mm');
+}
+
+// homework finish EventTaskCreator
+// use useReducer
+// use useContext
+// use props
+// use any react hooks to manage state
+
+// Onclick hour =>
+
+// opens input create event
+// button save event and cancel
+// button delete event
+
+// new event should appear next to hours
+// fix CSS
