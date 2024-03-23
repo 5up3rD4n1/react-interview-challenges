@@ -5,9 +5,224 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  margin: 30px;
+  min-width: 100vh;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* Split the screen in half */
+.split {
+  height: 100%;
+  width: 50%;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 20px;
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+  background-color: #ededed;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+  background-color: rgb(188, 240, 217);
+}
+
+/* If you want the content centered horizontally and vertically */
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 48%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+/* Style the image inside the centered container, if needed */
+/* .centered img {
+  width: 150px;
+  border-radius: 50%;
+} */
+
+.wrapper {
+  width: 200px;
+  justify-content: center;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  padding: 25px 30px 10px;
+  justify-content: space-between;
+}
+
+.calendar-dates {
+  display: flex;
+  flex-wrap: wrap;
+  text-align: center;
+}
+
+.calendar-dates ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  text-align: center;
+  width: 100%;
+}
+.calendar-dates ul li {
+  cursor: pointer;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.calendar .dates {
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.calendar .dates li {
+  width: 100%;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.calendar ul {
+  display: flex;
+  list-style: none;
+  flex-wrap: wrap;
+  text-align: center;
+}
+.calendar .days {
+  margin-bottom: 20px;
+  padding: 0;
+}
+
+.calendar .weeks {
+  padding: 0;
+}
+.calendar .weeks li {
+  font-weight: 500;
+}
+
+.calendar ul li {
+  position: relative;
+  width: calc(100% / 7);
+}
+.calendar .days li {
+  z-index: 1;
+  cursor: pointer;
+  margin-top: 30px;
+}
+.days li.inactive {
+  color: #aaa;
+}
+
+.calendar .days li::before {
+  position: absolute;
+  content: '';
+  height: 40px;
+  width: 40px;
+  top: 50%;
+  left: 50%;
+  z-index: -1;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.days li:hover::before {
+  background-color: #ffffff;
+}
+.days li.active::before {
+  background-color: rgb(188, 240, 217);
+
+  text-align: center;
+  border-radius: 5px;
+}
+.current-date {
+  font-size: 1.4rem;
+  font-weight: 600;
+}
+
+.icons {
+  height: 38px;
+  width: 38px;
+  margin: 0 1px;
+  cursor: pointer;
+  text-align: center;
+  font-weight: 500;
+  border: 0;
+  border-radius: 50%;
+  background-color: rgb(202, 202, 202);
+}
+
+.eventContainer {
+  padding: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.display-block {
+  display: block;
+}
+.hide {
+  display: none;
+}
+
+/*Modal*/
+
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0); /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
