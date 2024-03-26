@@ -1,8 +1,9 @@
 // import {useReducer} from 'react';
 import {DateTime} from 'luxon';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {days, daysOfWeek} from './Data';
 import {EventTaskCreator} from './EventTaskCreator';
+// import {DateContext} from './DateContext';
 
 // import {reducer} from '../reducer';
 // import DateTimeExample from './DateTimeExample';
@@ -11,6 +12,7 @@ export default function Calendar() {
   const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
 
   const [month, setMonth] = useState<DateTime>(currentDateTime);
+  // const {month, setMonth} = useContext(DateContext);
 
   const current = month.toLocaleString(DateTime.DATETIME_MED);
 

@@ -1,19 +1,36 @@
 import {actionType} from './action-type';
 
-function addCalendarEvent(state: any, action: any) {
+function addCalendarEventReducer(state: any, action: any) {
   return {
     ...state,
-    dates: [...state.dates, action.payload],
+    events: [...state.events, action.payload],
   };
 }
 
-function deleteCalendarEvent(state: any, action: any) {
-  const dates = state.dates.filter((date: {id: any}) => {
-    return date.id !== action.payload.id;
+function deleteCalendarEventReducer(state: any, action: any) {
+  const events = state.events.filter((event: {id: any}) => {
+    return event.id !== action.payload.id;
   });
   return {
     ...state,
-    dates,
+    events,
+  };
+}
+
+function editCalendarEventReducer(state: any, action: any) {
+  return {
+    ...state,
+    events: [
+      ...state.dates.map((event: any) => {
+        if (event.id === action.payload.id) {
+          return {
+            ...event,
+            ...action.payload,
+          };
+        }
+        return event;
+      }),
+    ],
   };
 }
 
@@ -23,10 +40,13 @@ export function reducer(state: any, action: any) {
 
   switch (action.type) {
     case actionType.ADD_CALENDAR_EVENT:
-      return addCalendarEvent(state, action);
+      return addCalendarEventReducer(state, action);
+
+    case actionType.EDIT_CALENDAR_EVENT:
+      return editCalendarEventReducer(state, action);
 
     case actionType.DELETE_CALENDAR_EVENT:
-      return deleteCalendarEvent(state, action);
+      return deleteCalendarEventReducer(state, action);
     default:
       return state;
   }
