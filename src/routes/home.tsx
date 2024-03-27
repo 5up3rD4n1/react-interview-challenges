@@ -8,6 +8,12 @@ export default function Home() {
             <li>
               <a href={'/calendar'}>Calendar</a>
             </li>
+            <li>
+              <a href={'/counter'}>Counter</a>
+            </li>
+            <li>
+              <a href={'/slots-machine'}>SlotsMachine</a>
+            </li>
           </ul>
         </nav>
       </main>
