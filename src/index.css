@@ -36,6 +36,9 @@ code {
 
 /* Control the right side */
 .right {
+  display: flex;
+  align-items: start;
+  justify-content: start;
   right: 0;
   background-color: rgb(188, 240, 217);
 }
@@ -55,6 +58,13 @@ code {
   border-radius: 50%;
 } */
 
+.dates-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: start;
+}
+
 .wrapper {
   width: 200px;
   justify-content: center;
@@ -71,6 +81,8 @@ code {
   display: flex;
   flex-wrap: wrap;
   text-align: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .calendar-dates ul {
@@ -78,11 +90,23 @@ code {
   list-style: none;
   flex-wrap: wrap;
   text-align: center;
+  padding: 3px;
 }
 .calendar-dates ul li {
-  cursor: pointer;
   margin-left: auto;
   margin-right: auto;
+}
+
+.calendar-dates li {
+  display: block;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f4f3f3;
+  border: 1px solid;
+  width: 150;
+  height: 20px;
+  padding: 10px;
 }
 
 .calendar .dates {

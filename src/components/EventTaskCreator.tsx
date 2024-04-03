@@ -10,8 +10,8 @@ import {allEvents} from './Data';
 
 export function EventTaskCreator(props: any) {
   const halfHours = new Array(48).fill(null);
-  // const dt = DateTime.now();
-  // const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
+  const dt = DateTime.now();
+  const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
   const timestamp = props.currentDateTime.toLocaleString(DateTime.DATE_FULL);
   const halfHoursTemplate = halfHours.reduce(
     (acc: {current: DateTime; acc: string[]}) => {
@@ -33,11 +33,6 @@ export function EventTaskCreator(props: any) {
   const [state, dispatch] = useReducer(reducer, {
     events: [],
   });
-
-  useEffect(() => {
-    dispatch(allEvents);
-    setData(data);
-  }, []);
 
   function handleOnClickShowHideEvent() {
     setshowCreateEvent(!showCreateEvent);
@@ -68,8 +63,8 @@ export function EventTaskCreator(props: any) {
       <div className="calendar-dates">
         <div>
           {' '}
-          <h1>This is EventTaskCreator</h1>
-          <h2 className="header">{timestamp}</h2>
+          {/* <h1>This is EventTaskCreator</h1> */}
+          {/* <h2 className="header">{timestamp}</h2> */}
         </div>
 
         {/* <div className={props.isShown ? 'display-block' : 'hide'}> */}
