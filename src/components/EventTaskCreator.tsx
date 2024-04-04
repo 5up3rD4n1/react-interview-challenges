@@ -1,10 +1,6 @@
 import {DateTime} from 'luxon';
 import {useEffect, useReducer, useState} from 'react';
-import {
-  addCalendarEvent,
-  deleteCalendarEvent,
-  editCalendarEvent,
-} from '../reducer/actions';
+
 import {reducer} from '../reducer/reducer';
 import {allEvents} from './Data';
 
@@ -30,9 +26,6 @@ export function EventTaskCreator(props: any) {
   const [eventName, setEventName] = useState('');
   const [selected, setSelected] = useState(true);
   const [values, setValues] = useState({name: props.name});
-  const [state, dispatch] = useReducer(reducer, {
-    events: [],
-  });
 
   function handleOnClickShowHideEvent() {
     setshowCreateEvent(!showCreateEvent);
@@ -44,18 +37,14 @@ export function EventTaskCreator(props: any) {
   }
 
   function handleAddEvent() {
-    dispatch(addCalendarEvent(eventName));
     setEventName('');
     setSelected(selected);
   }
 
   function handleOnClickEdit(id: any, event: any) {
-    dispatch(editCalendarEvent(id, event));
     setValues(values);
   }
-  function handleOnClickDelete(id: any) {
-    dispatch(deleteCalendarEvent(id));
-  }
+  function handleOnClickDelete(id: any) {}
 
   return (
     <div>
@@ -116,7 +105,7 @@ export function EventTaskCreator(props: any) {
         <ul>
           {/* Created Event */}
 
-          {state.events.map((event: any) => {
+          {/* {state.events.map((event: any) => {
             return (
               <li key={event.id}>
                 <div>
@@ -136,7 +125,7 @@ export function EventTaskCreator(props: any) {
                 </div>
               </li>
             );
-          })}
+          })} */}
         </ul>
       </div>
     </div>

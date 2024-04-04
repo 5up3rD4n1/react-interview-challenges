@@ -1,10 +1,9 @@
 import Calendar from '../components/Calendar';
-import {EventTaskCreator} from '../components/EventTaskCreator';
 import {DateTime} from 'luxon';
-import {DateContext} from '../components/DateContext';
-import {EventItem} from '../components/Events/EventItem';
-import {EventForm} from '../components/Events/EventForm';
+import {CalendarPickerContext} from '../components/CalendarContext';
+import EventContainer from '../components/Events/EventContainer';
 import {useReducer, useState} from 'react';
+import {reducer} from '../CalendarReducer/reducer';
 
 export default function Page() {
   const getTime = () => {
@@ -14,19 +13,7 @@ export default function Page() {
     return month.toLocaleString(DateTime.DATETIME_MED);
   };
 
-  // function hideShow() {
-  //   return (
-  //     <div>
-  //       <EventForm onSubmit={onFormSubmit} />
-  //     </div>
-  //   );
-  // }
-
-  // const {month, setMonth} = useContext(DateContext);
-
-  // function handleOnClickShowHideEvent() {
-  //   setShowCreateEvent(!showCreateEvent);
-  // }
+  const [state, dispatch] = useReducer(reducer, {lower: null, upper: null});
 
   return (
     <>
@@ -35,31 +22,18 @@ export default function Page() {
           <a href="/">index</a>
         </div>
         <h1>Calendar</h1>
-        {/* <DateContext.Provider value={currentDateTime}> */}
-        <div className="split left">
-          <div className="centered">
-            <Calendar />
+        <CalendarPickerContext.Provider value={{state, dispatch}}>
+          <div className="split left">
+            <div className="centered">
+              <Calendar />
+            </div>
           </div>
-        </div>
-        <div className="split right">
-          <div className="centered">
-            {/* <div className="dates-container">
-              <EventForm onSubmit={onFormSubmit} />
-            </div> */}
-            {/* <EventTaskCreator
-                isActive={true}
-                currentDateTime={currentDateTime}
-              /> */}
-
-            <EventItem
-            // data={state}
-            // onDeleteClick={onDeleteClick}
-            // onUpdateClick={onUpdateClick}
-            // current={getTime()}
-            />
+          <div className="split right">
+            <div>
+              <EventContainer />
+            </div>
           </div>
-        </div>
-        {/* </DateContext.Provider> */}
+        </CalendarPickerContext.Provider>
       </main>
     </>
   );

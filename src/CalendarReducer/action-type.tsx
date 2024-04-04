@@ -1,0 +1,5 @@
+export enum EventActionType {
+  SAVE_EVENT = 'SAVE_EVENT',
+  CLEAR_EVENT = 'CLEAR_EVENT',
+  UPDATE_EVENT = 'UPDATE_EVENT',
+}

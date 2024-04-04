@@ -1,82 +1,25 @@
 import {DateTime} from 'luxon';
-import {useReducer, useState} from 'react';
+import {useState} from 'react';
 import {EventForm} from './EventForm';
-
-interface EventItemData {
-  [key: string]: string | null;
-}
+import {ReducerState} from '../../reducer/reducer';
 
 interface EventItemsProps {
-  // data: EventItemData;
-  // current: string;
-  // onDeleteClick: (params: {hour: string}) => void;
-  // onUpdateClick: (params: {hour: string; eventReminder: string}) => void;
+  state: ReducerState;
+  onDeleteClick: (params: {hour: string}) => void;
+  onFormSubmit: (params: {hour: string; eventReminder: string}) => void;
 }
-interface ReducerState {
-  [key: string]: string | null | undefined;
-}
-
-enum EventActionType {
-  SAVE_EVENT = 'SAVE_EVENT',
-  CLEAR_EVENT = 'CLEAR_EVENT',
-  UPDATE_EVENT = 'UPDATE_EVENT',
-}
-
-interface Action<T> {
-  type: EventActionType;
-  payload: T;
-}
-
-function reducer(state: ReducerState, action: Action<any>): ReducerState {
-  if (action.type === EventActionType.SAVE_EVENT) {
-    return {...state, [action.payload.hour]: action.payload.eventReminder};
-  }
-
-  if (action.type === EventActionType.CLEAR_EVENT) {
-    return {...state, [action.payload.hour]: null};
-  }
-
-  if (action.type === EventActionType.UPDATE_EVENT) {
-    return {...state, [action.payload.hour]: action.payload.eventReminder};
-  }
-
-  return state;
-}
-
-function saveEvent(params: {hour: string; eventReminder: string}) {
-  return {type: EventActionType.SAVE_EVENT, payload: params};
-}
-
-function clearEvent(params: {hour: string}) {
-  return {type: EventActionType.CLEAR_EVENT, payload: params};
-}
-
 export function EventItem(props: EventItemsProps) {
-  // const {data} = props;
-
-  const [state, dispatch] = useReducer(reducer, {});
-
-  function onDeleteClick(params: {hour: string}) {
-    dispatch(clearEvent(params));
-  }
+  const {state} = props;
 
   const halfHour = new Array(48).fill(null);
   const [activeEvent, setActiveEvent] = useState<string | null>(null);
 
-  function handleLiClick(hour: string) {
+  function handleItemClick(hour: string) {
     setActiveEvent(hour);
   }
 
-  function onFormSubmit(params: {hour: string; eventReminder: string}) {
-    dispatch(saveEvent(params));
-  }
-  // function handlerOnClickAddNewEvent() {
-  //   setEvents([...events, null]);
-  // }
-
   const current = DateTime.now().startOf('day');
 
-  // const timestamp = props.currentDateTime.toLocaleString(DateTime.DATE_FULL);
   const halfHoursTemplate = halfHour.reduce(
     (acc: {current: DateTime; acc: string[]}) => {
       return {
@@ -95,7 +38,6 @@ export function EventItem(props: EventItemsProps) {
       <div className="">
         {}
         <h2 className="header">{current.toISO()}</h2>
-        {/* <button onClick={handlerOnClickAddNewEvent}>add new event</button> */}
 
         <ul>
           {/* List of hours */}
@@ -106,14 +48,14 @@ export function EventItem(props: EventItemsProps) {
             const isActive = hour === activeEvent;
 
             return (
-              <li key={index}>
+              <li className="" key={index}>
                 <div>
                   {isActive ? (
                     <>
                       <div>{hour}: </div>
                       <EventForm
                         onSubmit={(params: {eventReminder: string}) => {
-                          onFormSubmit({
+                          props.onFormSubmit({
                             hour,
                             eventReminder: params.eventReminder,
                           });
@@ -126,15 +68,14 @@ export function EventItem(props: EventItemsProps) {
                       />
                     </>
                   ) : (
-                    <div onClick={() => handleLiClick(hour)}>
+                    <div onClick={() => handleItemClick(hour)}>
                       {hour}: {event}
                     </div>
                   )}
                   {event ? (
                     <button
                       onClick={() => {
-                        // props.onDeleteClick({hour: hourIndex});
-                        onDeleteClick({hour});
+                        props.onDeleteClick({hour});
                       }}
                     >
                       X

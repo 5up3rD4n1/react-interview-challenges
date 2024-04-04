@@ -1,12 +1,9 @@
 // import {useReducer} from 'react';
 import {DateTime} from 'luxon';
-import {useContext, useState} from 'react';
-import {days, daysOfWeek} from './Data';
-import {EventTaskCreator} from './EventTaskCreator';
-// import {DateContext} from './DateContext';
+import {useState} from 'react';
+import {days} from './Data';
+import EventContainer from './Events/EventContainer';
 
-// import {reducer} from '../reducer';
-// import DateTimeExample from './DateTimeExample';
 export default function Calendar() {
   const dt = DateTime.now();
   const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
@@ -15,61 +12,6 @@ export default function Calendar() {
   // const {month, setMonth} = useContext(DateContext);
 
   const current = month.toLocaleString(DateTime.DATETIME_MED);
-
-  // const previousMonth = zone
-  //   .minus({months: 1})
-  //   .toLocaleString(DateTime.DATE_MED);
-  // const nextMonth = zone.plus({months: 1}).toLocaleString(DateTime.DATE_MED);
-
-  // const initialDay = dt.set(
-  //   dt.set({month: 3}).plus({month: 1}).startOf('month').startOf('week')
-  // );
-
-  const months = new Array(12).fill(null);
-  const addingMonths = months.reduce(
-    (acc: {current: DateTime; acc: string[]}) => {
-      return {
-        current: acc.current.plus({months: 1}),
-        acc: [...acc.acc, acc.current.toLocaleString(DateTime.DATETIME_MED)],
-      };
-    },
-    {
-      current: currentDateTime.startOf('day'),
-      acc: [],
-    }
-  );
-
-  const subtractMonths = months.reduce(
-    (acc: {current: DateTime; acc: string[]}) => {
-      return {
-        current: acc.current.minus({months: 1}),
-        acc: [...acc.acc, acc.current.toLocaleString(DateTime.DATETIME_MED)],
-      };
-    },
-    {
-      current: currentDateTime.startOf('day'),
-      acc: [],
-    }
-  );
-
-  // const startDate = {month: 3, week: 0};
-  // const endDate = {month: 3, day: 31};
-  const [openEvent, setOpenEvent] = useState(false);
-  const next = addingMonths.acc.map(month => {
-    return (
-      <div>
-        <h2 className="">{month}</h2>
-      </div>
-    );
-  });
-
-  const previous = subtractMonths.acc.map(month => {
-    return (
-      <div>
-        <h2 className="">{month}</h2>
-      </div>
-    );
-  });
 
   function handlerOnClickPrevious() {
     setMonth(month.minus({months: 1}).startOf('month'));
@@ -80,15 +22,15 @@ export default function Calendar() {
 
     // setMonth(next);
   }
-
+  const [activeDate, setActiveDate] = useState<string | null>(null);
   const handleOnClickShow = (date: string) => {
     // setOpenEvent((open: unknown) => !open);
+    setActiveDate(date);
+    // console.log(date);
 
-    console.log(date);
+    // const dateTime = getDate(date);
 
-    const dateTime = getDate(date);
-
-    // console.log(dateTime.daysInMonth);
+    // return dateTime;
   };
 
   const monthDays = calcMonthDays(month);
@@ -113,7 +55,7 @@ export default function Calendar() {
           +
         </button>
       </div>
-      {openEvent && <EventTaskCreator />}
+      {/* {openEvent && <EventTaskCreator />} */}
 
       <div className="calendar">
         <ul className="weeks">
@@ -129,10 +71,13 @@ export default function Calendar() {
           return (
             <ul key={index} className="days">
               {week.map((day, index) => {
+                const isActive = day.date === activeDate;
                 return (
                   <li key={index} onClick={() => handleOnClickShow(day.date)}>
+                    <div>{isActive ? '<3' : null}</div>
                     {day.display}
                     <br></br>
+
                     <small>{day.date}</small>
                   </li>
                 );
@@ -140,6 +85,16 @@ export default function Calendar() {
             </ul>
           );
         })}
+
+        {/* const isActive = day.date === activeDate
+        {isActive ? (
+          <>
+            <div>{day}</div>
+            <EventContainer />
+          </>
+        ) : (
+          <div onClick={() => handleOnClickShow(day.date)}>{day}</div>
+        )} */}
         {/* {daysOfWeek.map(days => {
             return <li onClick={handleOnClickShow}>{days}</li>;
           })} */}
