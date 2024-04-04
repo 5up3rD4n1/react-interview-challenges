@@ -1,21 +1,19 @@
 import {useState} from 'react';
 
 interface OnSubmitParams {
-  hour: string;
   eventReminder: string;
 }
 
 interface EventFormProps {
   onSubmit: (params: OnSubmitParams) => void;
+  onCloseClick: () => void;
+  initialValue?: string | null;
 }
 
 export function EventForm(props: EventFormProps) {
-  const [hour, setHourInput] = useState('');
-  const [eventReminder, setEventReminder] = useState('');
-
-  function handleOnChangeEventInput(input: any) {
-    setHourInput(input.target.value);
-  }
+  const [eventReminder, setEventReminder] = useState<string | undefined | null>(
+    props.initialValue
+  );
 
   function handleOnChangeEventReminder(input: any) {
     setEventReminder(input.target.value);
@@ -23,23 +21,29 @@ export function EventForm(props: EventFormProps) {
 
   function handleSubmit(event: React.FormEvent<any>) {
     event.preventDefault();
-    props.onSubmit({hour, eventReminder});
+    if (eventReminder && eventReminder !== '') {
+      props.onSubmit({eventReminder});
+    }
+  }
+
+  function handleCloseClick(event: React.MouseEvent) {
+    event.preventDefault();
+    props.onCloseClick();
   }
 
   return (
     <div>
       <form onSubmit={handleSubmit}>
         <input
-          type="text"
-          placeholder="x number"
-          onChange={handleOnChangeEventInput}
-        ></input>
-        <input
+          value={eventReminder || ''}
           type="text"
           placeholder="text goes here"
           onChange={handleOnChangeEventReminder}
         ></input>
-        <button type={'submit'}>create event</button>
+        <button type={'submit'}>
+          {props.initialValue ? 'update' : 'create'} event
+        </button>
+        <button onClick={handleCloseClick}>close</button>
       </form>
     </div>
   );

@@ -14,6 +14,9 @@ export default function Home() {
             <li>
               <a href={'/slots-machine'}>SlotsMachine</a>
             </li>
+            <li>
+              <a href={'/range-picker'}>Range Picker</a>
+            </li>
           </ul>
         </nav>
       </main>
