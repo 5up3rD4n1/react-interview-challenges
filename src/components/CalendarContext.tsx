@@ -9,9 +9,11 @@ export interface CalendarPickerContextPayload {
   dispatch: (value: any) => void;
 }
 
-export interface CalendarPickerState {}
+export interface CalendarPickerState {
+  date: string | null;
+}
 export const CalendarPickerContext =
   createContext<CalendarPickerContextPayload>({
-    state: {},
+    state: {date: null},
     dispatch: () => {},
   });

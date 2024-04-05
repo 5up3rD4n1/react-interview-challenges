@@ -1,7 +1,3 @@
-export function setLower(num: number | null) {
-  return {type: 'SET_LOWER', payload: num};
-}
-
-export function setUpper(num: number | null) {
-  return {type: 'SET_UPPER', payload: num};
+export function setDate(date: string | null) {
+  return {type: 'SET_DATE', payload: date};
 }

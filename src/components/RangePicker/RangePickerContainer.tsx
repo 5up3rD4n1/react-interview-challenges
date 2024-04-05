@@ -1,4 +1,4 @@
-import {createContext, useContext, useReducer, useState} from 'react';
+import {createContext, useContext, useReducer} from 'react';
 
 interface RangePickerContextPayload {
   state: RangePickerState;

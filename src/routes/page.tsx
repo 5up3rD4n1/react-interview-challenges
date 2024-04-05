@@ -13,7 +13,7 @@ export default function Page() {
     return month.toLocaleString(DateTime.DATETIME_MED);
   };
 
-  const [state, dispatch] = useReducer(reducer, {lower: null, upper: null});
+  const [state, dispatch] = useReducer(reducer, {date: null});
 
   return (
     <>

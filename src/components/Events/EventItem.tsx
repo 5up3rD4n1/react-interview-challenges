@@ -8,6 +8,7 @@ interface EventItemsProps {
   onDeleteClick: (params: {hour: string}) => void;
   onFormSubmit: (params: {hour: string; eventReminder: string}) => void;
 }
+
 export function EventItem(props: EventItemsProps) {
   const {state} = props;
 
@@ -45,7 +46,20 @@ export function EventItem(props: EventItemsProps) {
           {halfHoursTemplate.acc.map((hour, index) => {
             const event = state[hour];
 
+            const message = ['00:00', '12:00', '01:00'];
+            const splitted = message.map(word => {
+              return word.split('');
+            });
+            console.log(splitted);
+
+            const keys = Object.keys(state);
+            console.log(keys); // ['00:00']
+
+            const values = Object.values(state);
+            console.log(values); // ['go to gym']
+
             const isActive = hour === activeEvent;
+            // console.log(Object.keys(hour));
 
             return (
               <li className="" key={index}>
@@ -81,6 +95,8 @@ export function EventItem(props: EventItemsProps) {
                       X
                     </button>
                   ) : null}
+
+                  {event ? <div></div> : null}
                 </div>
               </li>
             );
@@ -90,3 +106,19 @@ export function EventItem(props: EventItemsProps) {
     </div>
   );
 }
+const hour = [
+  '2020 01 12T19:00:00',
+  '2019 12 30T19:00:00',
+  '2019 12 27T19:00:00',
+  '2019 12 25T19:00:00',
+  '2019 12 06T11:00:00',
+  '2019 12 02T19:00:00',
+  '2019 12 02T07:00:00',
+  '2020 01 25T17:00:00',
+  '2020 01 13T23:00:00',
+  '2019 10 28T17:00:00',
+  '2019 05 27T18:00:00',
+  '2019 02 28T17:00:00',
+  '2019 02 27T18:00:00',
+  '2019 01 28T17:00:00',
+];

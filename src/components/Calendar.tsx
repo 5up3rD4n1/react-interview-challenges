@@ -1,17 +1,27 @@
 // import {useReducer} from 'react';
 import {DateTime} from 'luxon';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {days} from './Data';
 import EventContainer from './Events/EventContainer';
+import {CalendarPickerContext} from './CalendarContext';
+import {setDate} from '../CalendarReducer/actions';
 
 export default function Calendar() {
+  const {state, dispatch} = useContext(CalendarPickerContext);
+
+  function handleButtonClick(date: string) {
+    if (state === null) {
+      dispatch(setDate(date));
+      return;
+    }
+  }
+
   const dt = DateTime.now();
   const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
-
   const [month, setMonth] = useState<DateTime>(currentDateTime);
   // const {month, setMonth} = useContext(DateContext);
-
   const current = month.toLocaleString(DateTime.DATETIME_MED);
+  const [activeDate, setActiveDate] = useState<string | null>(null);
 
   function handlerOnClickPrevious() {
     setMonth(month.minus({months: 1}).startOf('month'));
@@ -22,7 +32,7 @@ export default function Calendar() {
 
     // setMonth(next);
   }
-  const [activeDate, setActiveDate] = useState<string | null>(null);
+
   const handleOnClickShow = (date: string) => {
     // setOpenEvent((open: unknown) => !open);
     setActiveDate(date);
@@ -67,6 +77,7 @@ export default function Calendar() {
           <li>{days[5]}</li>
           <li>{days[6]}</li>
         </ul>
+
         {monthDays.map((week: any[], index) => {
           return (
             <ul key={index} className="days">
@@ -74,7 +85,7 @@ export default function Calendar() {
                 const isActive = day.date === activeDate;
                 return (
                   <li key={index} onClick={() => handleOnClickShow(day.date)}>
-                    <div>{isActive ? '<3' : null}</div>
+                    {isActive ? <span className="badge"></span> : null}
                     {day.display}
                     <br></br>
 
@@ -85,7 +96,6 @@ export default function Calendar() {
             </ul>
           );
         })}
-
         {/* const isActive = day.date === activeDate
         {isActive ? (
           <>
