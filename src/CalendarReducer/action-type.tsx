@@ -1,3 +1,4 @@
 export enum EventActionType {
-  SAT_DATE = 'SAT_DATE',
+  SET_DATE = 'SET_DATE',
+  ONCLICK_SELECTED = 'ONCLICK_SELECTED',
 }

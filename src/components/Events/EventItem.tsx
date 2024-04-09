@@ -1,16 +1,19 @@
 import {DateTime} from 'luxon';
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {EventForm} from './EventForm';
 import {ReducerState} from '../../reducer/reducer';
+import Calendar from '../Calendar';
+import {CalendarPickerContext} from '../CalendarContext';
 
 interface EventItemsProps {
-  state: ReducerState;
+  stateReducer: ReducerState;
   onDeleteClick: (params: {hour: string}) => void;
   onFormSubmit: (params: {hour: string; eventReminder: string}) => void;
 }
 
 export function EventItem(props: EventItemsProps) {
-  const {state} = props;
+  const {stateReducer} = props;
+  const {state, dispatch} = useContext(CalendarPickerContext);
 
   const halfHour = new Array(48).fill(null);
   const [activeEvent, setActiveEvent] = useState<string | null>(null);
@@ -19,7 +22,7 @@ export function EventItem(props: EventItemsProps) {
     setActiveEvent(hour);
   }
 
-  const current = DateTime.now().startOf('day');
+  const current = state.date;
 
   const halfHoursTemplate = halfHour.reduce(
     (acc: {current: DateTime; acc: string[]}) => {
@@ -33,18 +36,18 @@ export function EventItem(props: EventItemsProps) {
       acc: [],
     }
   );
-  console.log({activeEvent, state});
+  console.log({activeEvent, stateReducer});
   return (
     <div>
       <div className="">
         {}
-        <h2 className="header">{current.toISO()}</h2>
+        <h2 className="header">{current}</h2>
 
         <ul>
           {/* List of hours */}
 
           {halfHoursTemplate.acc.map((hour, index) => {
-            const event = state[hour];
+            const event = stateReducer[hour];
 
             const message = ['00:00', '12:00', '01:00'];
             const splitted = message.map(word => {
@@ -52,10 +55,10 @@ export function EventItem(props: EventItemsProps) {
             });
             console.log(splitted);
 
-            const keys = Object.keys(state);
+            const keys = Object.keys(stateReducer);
             console.log(keys); // ['00:00']
 
-            const values = Object.values(state);
+            const values = Object.values(stateReducer);
             console.log(values); // ['go to gym']
 
             const isActive = hour === activeEvent;
@@ -86,6 +89,7 @@ export function EventItem(props: EventItemsProps) {
                       {hour}: {event}
                     </div>
                   )}
+
                   {event ? (
                     <button
                       onClick={() => {
@@ -95,9 +99,8 @@ export function EventItem(props: EventItemsProps) {
                       X
                     </button>
                   ) : null}
-
-                  {event ? <div></div> : null}
                 </div>
+                {keys.length > 0 ? 'event' : 'no events'}
               </li>
             );
           })}

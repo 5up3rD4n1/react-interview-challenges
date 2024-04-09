@@ -13,7 +13,10 @@ export default function Page() {
     return month.toLocaleString(DateTime.DATETIME_MED);
   };
 
-  const [state, dispatch] = useReducer(reducer, {date: null});
+  const [state, dispatch] = useReducer(reducer, {
+    date: getTime(),
+    id: null,
+  });
 
   return (
     <>
@@ -25,7 +28,7 @@ export default function Page() {
         <CalendarPickerContext.Provider value={{state, dispatch}}>
           <div className="split left">
             <div className="centered">
-              <Calendar />
+              <Calendar value={state.date} />
             </div>
           </div>
           <div className="split right">

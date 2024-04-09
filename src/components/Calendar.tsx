@@ -5,8 +5,12 @@ import {days} from './Data';
 import EventContainer from './Events/EventContainer';
 import {CalendarPickerContext} from './CalendarContext';
 import {setDate} from '../CalendarReducer/actions';
+import {EventItem} from './Events/EventItem';
 
-export default function Calendar() {
+interface CalendarProps {
+  value: number | null;
+}
+export default function Calendar(props: CalendarProps) {
   const {state, dispatch} = useContext(CalendarPickerContext);
 
   function handleButtonClick(date: string) {
@@ -22,6 +26,8 @@ export default function Calendar() {
   // const {month, setMonth} = useContext(DateContext);
   const current = month.toLocaleString(DateTime.DATETIME_MED);
   const [activeDate, setActiveDate] = useState<string | null>(null);
+  const [show, setShow] = useState(false);
+  const [selected, setSelected] = useState('show');
 
   function handlerOnClickPrevious() {
     setMonth(month.minus({months: 1}).startOf('month'));
@@ -43,12 +49,26 @@ export default function Calendar() {
     // return dateTime;
   };
 
+  const onClickShowHours = (id: string) => {
+    if (state.id === state.date) {
+      dispatch(setSelected(id));
+      return;
+    }
+    if (show === true) {
+      setShow(false);
+    } else {
+      setShow(true);
+    }
+  };
+
   const monthDays = calcMonthDays(month);
 
   return (
     <>
       <div className="wrapper"></div>
       <h1>This is calendar component</h1>
+      <button onClick={() => handleButtonClick}>click here</button>
+      <div>{props.value}</div>
       <div className="header">
         <button className="icons" onClick={handlerOnClickPrevious}>
           -
@@ -83,12 +103,26 @@ export default function Calendar() {
             <ul key={index} className="days">
               {week.map((day, index) => {
                 const isActive = day.date === activeDate;
+                const id = day.id;
+                const keys = Object.keys(state);
+                // console.log(keys); // ['00:00']
                 return (
-                  <li key={index} onClick={() => handleOnClickShow(day.date)}>
-                    {isActive ? <span className="badge"></span> : null}
+                  <li key={index} onClick={() => onClickShowHours(id)}>
+                    {isActive ? (
+                      <>
+                        {' '}
+                        <span className="badge">
+                          {show && <h1>hello</h1>}
+                          {/* {keys.length > 0
+                            ? isShow && <EventContainer />
+                            : !isShow && <EventContainer />} */}
+                        </span>
+                      </>
+                    ) : null}
                     {day.display}
                     <br></br>
-
+                    {/* {selected === 'show'}
+                    {selected === 'hide' && null} */}
                     <small>{day.date}</small>
                   </li>
                 );
@@ -104,7 +138,7 @@ export default function Calendar() {
           </>
         ) : (
           <div onClick={() => handleOnClickShow(day.date)}>{day}</div>
-        )} */}
+        )} }
         {/* {daysOfWeek.map(days => {
             return <li onClick={handleOnClickShow}>{days}</li>;
           })} */}

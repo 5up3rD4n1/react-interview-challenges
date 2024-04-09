@@ -19,7 +19,7 @@ export default function EventContainer() {
       <main>
         {' '}
         <EventItem
-          state={state}
+          stateReducer={state}
           onDeleteClick={onDeleteClick}
           onFormSubmit={onFormSubmit}
           // onUpdateClick={onUpdateClick}

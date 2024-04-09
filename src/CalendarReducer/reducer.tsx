@@ -7,6 +7,8 @@ export function reducer(
   if (action.type === 'SET_DATE') {
     return {...state, date: action.payload};
   }
-
+  if (action.type === 'ONCLICK_SELECTED') {
+    return {...state, id: action.payload};
+  }
   return state;
 }
