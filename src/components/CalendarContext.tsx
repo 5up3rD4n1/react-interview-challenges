@@ -1,8 +1,9 @@
+import {DateTime} from 'luxon';
 import {createContext} from 'react';
 
-// export const DateContext = createContext(
-//   DateTime.now().setLocale('es').setZone('America/Costa_Rica')
-// );
+export const DateContext = createContext(
+  DateTime.now().setLocale('es').setZone('America/Costa_Rica')
+);
 
 export interface CalendarPickerContextPayload {
   state: CalendarPickerState;
@@ -10,11 +11,12 @@ export interface CalendarPickerContextPayload {
 }
 
 export interface CalendarPickerState {
-  date: string | null;
+  date: DateTime;
   id: string | null;
+  isVisible: boolean;
 }
 export const CalendarPickerContext =
   createContext<CalendarPickerContextPayload>({
-    state: {date: null, id: null},
+    state: {date: DateTime.now(), id: null, isVisible: false},
     dispatch: () => {},
   });

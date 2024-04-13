@@ -4,8 +4,9 @@ import {useContext, useState} from 'react';
 import {days} from './Data';
 import EventContainer from './Events/EventContainer';
 import {CalendarPickerContext} from './CalendarContext';
-import {setDate} from '../CalendarReducer/actions';
+import {setDate, setVisible} from '../CalendarReducer/actions';
 import {EventItem} from './Events/EventItem';
+import {isVisible} from '@testing-library/user-event/dist/utils';
 
 interface CalendarProps {
   value: number | null;
@@ -50,7 +51,7 @@ export default function Calendar(props: CalendarProps) {
   };
 
   const onClickShowHours = (id: string) => {
-    if (state.id === state.date) {
+    if (state.id) {
       dispatch(setSelected(id));
       return;
     }
@@ -61,24 +62,29 @@ export default function Calendar(props: CalendarProps) {
     }
   };
 
+  const handleClickVisible = (isVisible: boolean) => {
+    if (state.isVisible) {
+      dispatch(setVisible(isVisible));
+    }
+
+    if (state.isVisible === false) {
+      setVisible(true);
+    } else {
+      setVisible(false);
+    }
+  };
   const monthDays = calcMonthDays(month);
 
   return (
     <>
       <div className="wrapper"></div>
       <h1>This is calendar component</h1>
-      <button onClick={() => handleButtonClick}>click here</button>
-      <div>{props.value}</div>
       <div className="header">
         <button className="icons" onClick={handlerOnClickPrevious}>
           -
         </button>
 
-        {current && (
-          <div>
-            <h2 className="current-date">{current}</h2>
-          </div>
-        )}
+        {<h2 className="current-date">{current}</h2>}
 
         {/* <h2 className="current-date">{current}</h2> */}
         <button className="icons" onClick={handleOnClickNext}>
@@ -105,18 +111,23 @@ export default function Calendar(props: CalendarProps) {
                 const isActive = day.date === activeDate;
                 const id = day.id;
                 const keys = Object.keys(state);
-                // console.log(keys); // ['00:00']
+
+                console.log(keys); // ['00:00']
                 return (
-                  <li key={index} onClick={() => onClickShowHours(id)}>
+                  <li
+                    key={index}
+                    onClick={() => handleClickVisible(state.isVisible)}
+                  >
                     {isActive ? (
                       <>
-                        {' '}
-                        <span className="badge">
-                          {show && <h1>hello</h1>}
-                          {/* {keys.length > 0
+                        {show && (
+                          <div>
+                            <h1>Open</h1>
+                          </div>
+                        )}
+                        {/* {keys.length > 0
                             ? isShow && <EventContainer />
                             : !isShow && <EventContainer />} */}
-                        </span>
                       </>
                     ) : null}
                     {day.display}

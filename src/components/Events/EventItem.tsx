@@ -2,8 +2,8 @@ import {DateTime} from 'luxon';
 import {useContext, useState} from 'react';
 import {EventForm} from './EventForm';
 import {ReducerState} from '../../reducer/reducer';
-import Calendar from '../Calendar';
 import {CalendarPickerContext} from '../CalendarContext';
+import {useVisibilityStatus} from '../../routes/page';
 
 interface EventItemsProps {
   stateReducer: ReducerState;
@@ -22,7 +22,7 @@ export function EventItem(props: EventItemsProps) {
     setActiveEvent(hour);
   }
 
-  const current = state.date;
+  const current = state.date.toString();
 
   const halfHoursTemplate = halfHour.reduce(
     (acc: {current: DateTime; acc: string[]}) => {
@@ -64,12 +64,14 @@ export function EventItem(props: EventItemsProps) {
             const isActive = hour === activeEvent;
             // console.log(Object.keys(hour));
 
+            const eventConfirmation = keys.length > 0 ? 'event' : 'no events';
+
             return (
               <li className="" key={index}>
                 <div>
                   {isActive ? (
                     <>
-                      <div>{hour}: </div>
+                      <div>{hour}:</div>
                       <EventForm
                         onSubmit={(params: {eventReminder: string}) => {
                           props.onFormSubmit({
@@ -100,7 +102,8 @@ export function EventItem(props: EventItemsProps) {
                     </button>
                   ) : null}
                 </div>
-                {keys.length > 0 ? 'event' : 'no events'}
+                {/** If my array has an event (more than 0) then 'event if there is no events created then 'no events */}
+                {eventConfirmation}
               </li>
             );
           })}

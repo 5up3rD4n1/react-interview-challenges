@@ -2,9 +2,11 @@ import Calendar from '../components/Calendar';
 import {DateTime} from 'luxon';
 import {CalendarPickerContext} from '../components/CalendarContext';
 import EventContainer from '../components/Events/EventContainer';
-import {useReducer, useState} from 'react';
+import {useContext, useReducer, useState} from 'react';
 import {reducer} from '../CalendarReducer/reducer';
+import {isVisible} from '@testing-library/user-event/dist/utils';
 
+export const useVisibilityStatus = () => useContext(CalendarPickerContext);
 export default function Page() {
   const getTime = () => {
     const dt = DateTime.now();
@@ -13,9 +15,14 @@ export default function Page() {
     return month.toLocaleString(DateTime.DATETIME_MED);
   };
 
+  const [isVisible, setIsVisible] = useState(true);
+
+  const toggleIsVisible = () => setIsVisible(isVisible => !isVisible);
+
   const [state, dispatch] = useReducer(reducer, {
     date: getTime(),
     id: null,
+    isVisible: false,
   });
 
   return (
@@ -28,7 +35,7 @@ export default function Page() {
         <CalendarPickerContext.Provider value={{state, dispatch}}>
           <div className="split left">
             <div className="centered">
-              <Calendar value={state.date} />
+              <Calendar value={(state.date, state.isVisible)} />
             </div>
           </div>
           <div className="split right">

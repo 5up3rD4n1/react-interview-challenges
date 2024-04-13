@@ -10,5 +10,9 @@ export function reducer(
   if (action.type === 'ONCLICK_SELECTED') {
     return {...state, id: action.payload};
   }
+  if (action.type === 'SET_VISIBLE') {
+    return {...state, isVisible: action.payload};
+  }
+
   return state;
 }
