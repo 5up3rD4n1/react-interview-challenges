@@ -14,9 +14,15 @@ export interface CalendarPickerState {
   date: DateTime;
   id: string | null;
   isVisible: boolean;
+  onClickIsVisible: {};
 }
 export const CalendarPickerContext =
   createContext<CalendarPickerContextPayload>({
-    state: {date: DateTime.now(), id: null, isVisible: false},
+    state: {
+      date: DateTime.now(),
+      id: null,
+      isVisible: false,
+      onClickIsVisible: () => {},
+    },
     dispatch: () => {},
   });

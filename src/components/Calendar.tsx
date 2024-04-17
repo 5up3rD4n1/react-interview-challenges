@@ -208,3 +208,7 @@ function getDate(date: string): DateTime {
   // 2024-04-01 10:30 => DateTime
   return DateTime.fromFormat(date, 'yyyy-MM-dd HH:mm');
 }
+
+// function eventsCreated(myObject) {
+//   let events = [];
+// }

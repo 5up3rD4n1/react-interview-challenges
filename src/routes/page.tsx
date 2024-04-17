@@ -17,12 +17,13 @@ export default function Page() {
 
   const [isVisible, setIsVisible] = useState(true);
 
-  const toggleIsVisible = () => setIsVisible(isVisible => !isVisible);
+  const onClickIsVisible = () => setIsVisible(isVisible => !isVisible);
 
   const [state, dispatch] = useReducer(reducer, {
     date: getTime(),
     id: null,
     isVisible: false,
+    onClickIsVisible: () => {},
   });
 
   return (
