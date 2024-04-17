@@ -1,8 +1,8 @@
 import {createBrowserRouter} from 'react-router-dom';
 import Home from './home';
 import Page from './page';
-import Counter from '../components/Counter';
-import SlotsMachine from '../components/SlotsMachine';
+import Counter from '../components/Others/Counter';
+import SlotsMachine from '../components/Others/SlotsMachine';
 import RangePickerContainer from '../components/RangePicker/RangePickerContainer';
 import TodoTickets from '../components/TodoTickets/TodoTickets';
 

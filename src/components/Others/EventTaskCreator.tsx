@@ -1,7 +1,7 @@
 import {DateTime} from 'luxon';
 import {useEffect, useReducer, useState} from 'react';
 
-import {allEvents} from './Data';
+import {allEvents} from '../Data';
 
 export function EventTaskCreator(props: any) {
   const halfHours = new Array(48).fill(null);
