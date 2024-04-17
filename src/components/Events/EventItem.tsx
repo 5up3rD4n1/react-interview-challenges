@@ -1,18 +1,18 @@
 import {DateTime} from 'luxon';
 import {useContext, useState} from 'react';
 import {EventForm} from './EventForm';
-import {ReducerState} from '../../reducer/reducer';
+
 import {CalendarPickerContext} from '../CalendarContext';
 import {useVisibilityStatus} from '../../routes/page';
+import {clearEvent, saveEvent} from '../../CalendarReducer/actions';
 
-interface EventItemsProps {
-  stateReducer: ReducerState;
-  onDeleteClick: (params: {hour: string}) => void;
-  onFormSubmit: (params: {hour: string; eventReminder: string}) => void;
-}
+// interface EventItemsProps {
+//   stateReducer: ReducerState;
+//   onDeleteClick: (params: {hour: string}) => void;
+//   onFormSubmit: (params: {eventReminder: string; eventId: string}) => void;
+// }
 
-export function EventItem(props: EventItemsProps) {
-  const {stateReducer} = props;
+export function EventItem() {
   const {state, dispatch} = useContext(CalendarPickerContext);
 
   const halfHour = new Array(48).fill(null);
@@ -36,7 +36,20 @@ export function EventItem(props: EventItemsProps) {
       acc: [],
     }
   );
-  console.log({activeEvent, stateReducer});
+
+  function handleOnFormSubmit(params: {
+    eventReminder: string;
+    eventId: string;
+  }) {
+    dispatch(saveEvent(params));
+  }
+
+  function handleDeleteClick(params: {eventId: string}) {
+    dispatch(clearEvent(params));
+  }
+
+  console.log({state});
+
   return (
     <div>
       <div className="">
@@ -47,24 +60,29 @@ export function EventItem(props: EventItemsProps) {
           {/* List of hours */}
 
           {halfHoursTemplate.acc.map((hour, index) => {
-            const event = stateReducer[hour];
+            // const event = stateReducer[hour]; // 02:30
+            const selectedDate = state.date.toFormat('yyyy-MM-dd');
+            const eventId = `${selectedDate} ${hour}`;
 
-            const message = ['00:00', '12:00', '01:00'];
-            const splitted = message.map(word => {
-              return word.split('');
-            });
-            console.log(splitted);
+            const event = state.events[eventId];
+            // console.log(event);
 
-            const keys = Object.keys(stateReducer);
-            console.log(keys); // ['00:00']
+            // const message = ['00:00', '12:00', '01:00'];
+            // const splitted = message.map(word => {
+            //   return word.split('');
+            // });
+            // console.log(splitted);
 
-            const values = Object.values(stateReducer);
-            console.log(values); // ['go to gym']
+            // const keys = Object.keys(stateReducer);
+            // console.log(keys); // ['00:00']
+
+            // const values = Object.values(stateReducer);
+            // console.log(values); // ['go to gym']
 
             const isActive = hour === activeEvent;
             // console.log(Object.keys(hour));
 
-            const eventConfirmation = keys.length > 0 ? 'event' : 'no events';
+            // const eventConfirmation = keys.length > 0 ? 'event' : 'no events';
 
             return (
               <li className="" key={index}>
@@ -74,9 +92,9 @@ export function EventItem(props: EventItemsProps) {
                       <div>{hour}:</div>
                       <EventForm
                         onSubmit={(params: {eventReminder: string}) => {
-                          props.onFormSubmit({
-                            hour,
+                          handleOnFormSubmit({
                             eventReminder: params.eventReminder,
+                            eventId,
                           });
                           setActiveEvent(null);
                         }}
@@ -95,7 +113,7 @@ export function EventItem(props: EventItemsProps) {
                   {event ? (
                     <button
                       onClick={() => {
-                        props.onDeleteClick({hour});
+                        handleDeleteClick({eventId});
                       }}
                     >
                       X
@@ -103,7 +121,7 @@ export function EventItem(props: EventItemsProps) {
                   ) : null}
                 </div>
                 {/** If my array has an event (more than 0) then 'event if there is no events created then 'no events */}
-                {eventConfirmation}
+                {/* {eventConfirmation} */}
               </li>
             );
           })}

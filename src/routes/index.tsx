@@ -4,6 +4,7 @@ import Page from './page';
 import Counter from '../components/Counter';
 import SlotsMachine from '../components/SlotsMachine';
 import RangePickerContainer from '../components/RangePicker/RangePickerContainer';
+import TodoTickets from '../components/TodoTickets/TodoTickets';
 
 export const router = createBrowserRouter([
   {
@@ -25,5 +26,9 @@ export const router = createBrowserRouter([
   {
     path: '/range-picker',
     element: <RangePickerContainer />,
+  },
+  {
+    path: '/todo-tickets',
+    element: <TodoTickets />,
   },
 ]);

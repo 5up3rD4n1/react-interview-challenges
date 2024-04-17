@@ -17,6 +17,9 @@ export default function Home() {
             <li>
               <a href={'/range-picker'}>Range Picker</a>
             </li>
+            <li>
+              <a href={'/todo-tickets'}>Todo Tickets</a>
+            </li>
           </ul>
         </nav>
       </main>

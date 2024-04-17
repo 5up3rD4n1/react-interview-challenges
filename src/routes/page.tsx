@@ -8,21 +8,24 @@ import {isVisible} from '@testing-library/user-event/dist/utils';
 
 export const useVisibilityStatus = () => useContext(CalendarPickerContext);
 export default function Page() {
-  const getTime = () => {
-    const dt = DateTime.now();
-    const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
-    const [month, setMonth] = useState<DateTime>(currentDateTime);
-    return month.toLocaleString(DateTime.DATETIME_MED);
-  };
+  // const getTime = () => {
+  //   const dt = DateTime.now();
+  //   const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
+  //   const [month, setMonth] = useState<DateTime>(currentDateTime);
+  //   return month.toLocaleString(DateTime.DATETIME_MED);
+  // };
 
   const [isVisible, setIsVisible] = useState(true);
 
   const onClickIsVisible = () => setIsVisible(isVisible => !isVisible);
 
   const [state, dispatch] = useReducer(reducer, {
-    date: getTime(),
+    date: DateTime.now(),
     id: null,
     isVisible: false,
+    events: {
+      '2024-04-16 02:30': 'Rinse the dishes', // yyyy-MM-dd HH:mm
+    },
     onClickIsVisible: () => {},
   });
 

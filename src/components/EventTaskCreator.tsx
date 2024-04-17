@@ -1,7 +1,6 @@
 import {DateTime} from 'luxon';
 import {useEffect, useReducer, useState} from 'react';
 
-import {reducer} from '../reducer/reducer';
 import {allEvents} from './Data';
 
 export function EventTaskCreator(props: any) {

@@ -14,13 +14,6 @@ interface CalendarProps {
 export default function Calendar(props: CalendarProps) {
   const {state, dispatch} = useContext(CalendarPickerContext);
 
-  function handleButtonClick(date: string) {
-    if (state === null) {
-      dispatch(setDate(date));
-      return;
-    }
-  }
-
   const dt = DateTime.now();
   const currentDateTime = dt.setLocale('es').setZone('America/Costa_Rica');
   const [month, setMonth] = useState<DateTime>(currentDateTime);
@@ -50,30 +43,15 @@ export default function Calendar(props: CalendarProps) {
     // return dateTime;
   };
 
-  const onClickShowHours = (id: string) => {
-    if (state.id) {
-      dispatch(setSelected(id));
-      return;
-    }
-    if (show === true) {
-      setShow(false);
-    } else {
-      setShow(true);
-    }
-  };
-
-  const handleClickVisible = (isVisible: boolean) => {
-    if (state.isVisible) {
-      dispatch(setVisible(isVisible));
-    }
-
-    if (state.isVisible === false) {
-      setVisible(true);
-    } else {
-      setVisible(false);
-    }
-  };
   const monthDays = calcMonthDays(month);
+
+  function handleDateClick(date: string) {
+    console.log(date);
+    const dateTime = DateTime.fromFormat(date, 'yyyy-MM-dd HH:mm', {
+      zone: 'America/Costa_Rica',
+    });
+    dispatch(setDate(dateTime));
+  }
 
   return (
     <>
@@ -114,10 +92,7 @@ export default function Calendar(props: CalendarProps) {
 
                 console.log(keys); // ['00:00']
                 return (
-                  <li
-                    key={index}
-                    onClick={() => handleClickVisible(state.isVisible)}
-                  >
+                  <li key={index} onClick={() => handleDateClick(day.date)}>
                     {isActive ? (
                       <>
                         {show && (
