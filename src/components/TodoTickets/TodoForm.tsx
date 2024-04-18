@@ -1,4 +1,3 @@
-import {Description} from '@mui/icons-material';
 import {useState} from 'react';
 
 interface OnSubmitParams {
@@ -8,12 +7,14 @@ interface OnSubmitParams {
 
 interface TodoFormParams {
   onSubmit: (params: OnSubmitParams) => void;
+  onCloseClick: () => void;
+  initialValue: string;
 }
 export function TodoForm(props: TodoFormParams) {
-  const [tittle, setTittle] = useState('');
-  const [description, setDescription] = useState('');
+  const [tittle, setTittle] = useState(props.initialValue);
+  const [description, setDescription] = useState(props.initialValue);
 
-  function handleOnChanfeTittle(input: any) {
+  function handleOnChangeTittle(input: any) {
     setTittle(input.target.value);
   }
 
@@ -23,26 +24,39 @@ export function TodoForm(props: TodoFormParams) {
 
   function handleSubmit(event: React.FormEvent<any>) {
     event.preventDefault();
+
     props.onSubmit({tittle, description});
+  }
+
+  function handleCloseClick(event: React.FormEvent<any>) {
+    event.preventDefault();
+    props.onCloseClick();
   }
   return (
     <>
       <form onSubmit={handleSubmit}>
+        <label>Tittle</label>
+        <br />
         <input
+          value={tittle}
           type="text"
           placeholder="tittle goes here"
-          onChange={handleOnChanfeTittle}
-        >
-          Tittle
-        </input>
+          onChange={handleOnChangeTittle}
+        />{' '}
+        <br />
+        <br />
+        <label>Description</label>
+        <br />
         <input
+          value={description}
           type="text"
           placeholder="description goes here"
           onChange={handleOnChangeDescription}
-        >
-          Description
-        </input>
-        <button type={'submit'}>Add Todo</button>
+        />{' '}
+        <br />
+        <br />
+        <button type={'submit'}>create</button>
+        <button onClick={handleCloseClick}>close</button>
       </form>
     </>
   );
